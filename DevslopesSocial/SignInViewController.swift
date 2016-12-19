@@ -13,6 +13,10 @@ import FBSDKLoginKit
 
 class SignInViewController: UIViewController {
 
+    
+    @IBOutlet weak var emailAddressTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -39,6 +43,27 @@ class SignInViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func signInButtonPressed(_ sender: UIButton) {
+        if let email = emailAddressTextField.text, let password = passwordTextField.text {
+            FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+                if error == nil {
+                    print ("HECTOR: Authed with firebase")
+                }
+                else {
+                    FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
+                        if (error != nil) {
+                            print ("HECTOR: Unable to auth with Firebase")
+                        }
+                        else {
+                            print ("HECTOR: Authed with firebase")
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
     
     func firebaseAuth(_ credential: FIRAuthCredential ) {
         
