@@ -20,6 +20,9 @@
 		12B060711E08407D00CB7B76 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B060701E08407D00CB7B76 /* RoundButton.swift */; };
 		12B060731E0841BF00CB7B76 /* FancyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B060721E0841BF00CB7B76 /* FancyTextField.swift */; };
 		12B060751E08448900CB7B76 /* FancyBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B060741E08448900CB7B76 /* FancyBtn.swift */; };
+		12B060811E08714500CB7B76 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12B060801E08714500CB7B76 /* FBSDKCoreKit.framework */; };
+		12B060841E08716500CB7B76 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12B060821E08716500CB7B76 /* FBSDKLoginKit.framework */; };
+		12B060851E08716500CB7B76 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12B060831E08716500CB7B76 /* FBSDKShareKit.framework */; };
 		F97F925386410577E4749813 /* Pods_DevslopesSocial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A84B15AD277703FA26758E82 /* Pods_DevslopesSocial.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +63,9 @@
 		12B060701E08407D00CB7B76 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		12B060721E0841BF00CB7B76 /* FancyTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FancyTextField.swift; sourceTree = "<group>"; };
 		12B060741E08448900CB7B76 /* FancyBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FancyBtn.swift; sourceTree = "<group>"; };
+		12B060801E08714500CB7B76 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		12B060821E08716500CB7B76 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		12B060831E08716500CB7B76 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		16E655645F70B779354962A7 /* Pods-DevslopesSocial.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DevslopesSocial.release.xcconfig"; path = "Pods/Target Support Files/Pods-DevslopesSocial/Pods-DevslopesSocial.release.xcconfig"; sourceTree = "<group>"; };
 		30AFF8A19476977E38A5574C /* Pods-DevslopesSocial.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DevslopesSocial.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DevslopesSocial/Pods-DevslopesSocial.debug.xcconfig"; sourceTree = "<group>"; };
 		A84B15AD277703FA26758E82 /* Pods_DevslopesSocial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DevslopesSocial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,7 +76,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12B060851E08716500CB7B76 /* FBSDKShareKit.framework in Frameworks */,
 				F97F925386410577E4749813 /* Pods_DevslopesSocial.framework in Frameworks */,
+				12B060811E08714500CB7B76 /* FBSDKCoreKit.framework in Frameworks */,
+				12B060841E08716500CB7B76 /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,7 +211,10 @@
 		E247F8587DB8ADE4E63100A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				12B060801E08714500CB7B76 /* FBSDKCoreKit.framework */,
 				A84B15AD277703FA26758E82 /* Pods_DevslopesSocial.framework */,
+				12B060821E08716500CB7B76 /* FBSDKLoginKit.framework */,
+				12B060831E08716500CB7B76 /* FBSDKShareKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
