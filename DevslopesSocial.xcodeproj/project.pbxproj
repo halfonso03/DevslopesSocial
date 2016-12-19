@@ -118,7 +118,6 @@
 			children = (
 				12B060681E07981300CB7B76 /* Controller */,
 				12B060661E07980600CB7B76 /* Model */,
-				12B060691E07983000CB7B76 /* Resources */,
 				12B0606A1E07983800CB7B76 /* Support Files */,
 				12B0606D1E083EEE00CB7B76 /* Utils */,
 				12B060671E07980A00CB7B76 /* View */,
@@ -170,13 +169,6 @@
 				12B060381E0794BC00CB7B76 /* SignInViewController.swift */,
 			);
 			name = Controller;
-			sourceTree = "<group>";
-		};
-		12B060691E07983000CB7B76 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		12B0606A1E07983800CB7B76 /* Support Files */ = {
@@ -564,6 +556,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 3X58GVHHHH;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = DevslopesSocial/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nhac2.com.DevslopesSocial;
@@ -578,6 +574,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 3X58GVHHHH;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = DevslopesSocial/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nhac2.com.DevslopesSocial;
