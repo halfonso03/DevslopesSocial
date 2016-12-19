@@ -11,5 +11,6 @@ target 'DevslopesSocial' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'FacebookCore'
+  pod 'SwiftKeychainWrapper'
   
 end

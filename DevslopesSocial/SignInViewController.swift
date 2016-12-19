@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FBSDKLoginKit
+import SwiftKeychainWrapper
 
 
 class SignInViewController: UIViewController {
@@ -19,9 +20,19 @@ class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if KeychainWrapper.standard.string(forKey: KEY_UID) != nil {
+            performSegue(withIdentifier: "showFeeds", sender: nil)
+        }
         // Do any additional setup after loading the view, typically from a nib.
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if KeychainWrapper.standard.string(forKey: KEY_UID) != nil {
+            performSegue(withIdentifier: "showFeeds", sender: nil)
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -49,6 +60,9 @@ class SignInViewController: UIViewController {
             FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
                 if error == nil {
                     print ("HECTOR: Authed with firebase")
+                    if let user = user {
+                        self.completeSignIn(id: user.uid)
+                    }
                 }
                 else {
                     FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
@@ -57,6 +71,9 @@ class SignInViewController: UIViewController {
                         }
                         else {
                             print ("HECTOR: Authed with firebase")
+                            if let user = user {
+                                self.completeSignIn(id: user.uid)
+                            }
                         }
                     })
                 }
@@ -73,8 +90,21 @@ class SignInViewController: UIViewController {
             }
             else {
                 print ("HECTOR: Authed with Firebase")
+                if let u = user {
+                    self.completeSignIn(id: u.uid)
+                }
             }
         }
+    }
+    
+    func completeSignIn(id: String) {
+        let result = KeychainWrapper.standard.set(id, forKey: KEY_UID)
+        print ("Hector : keychain saved result \(result)")
+        performSegue(withIdentifier: "showFeeds", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
     }
 
 }
