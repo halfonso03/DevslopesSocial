@@ -51,6 +51,7 @@ class SignInViewController: UIViewController {
                 print ("HECTOR: Authed with fb")
                 let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
                 self.firebaseAuth(credential)
+                
             }
         }
     }
@@ -60,8 +61,10 @@ class SignInViewController: UIViewController {
             FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
                 if error == nil {
                     print ("HECTOR: Authed with firebase")
-                    if let user = user {
-                        self.completeSignIn(id: user.uid)
+                    if let u = user {
+                        var userData = [String: String]()
+                        userData["provider"] = u.providerID
+                        self.completeSignIn(id: u.uid, userData: userData)
                     }
                 }
                 else {
@@ -71,8 +74,10 @@ class SignInViewController: UIViewController {
                         }
                         else {
                             print ("HECTOR: Authed with firebase")
-                            if let user = user {
-                                self.completeSignIn(id: user.uid)
+                            if let u = user {
+                                var userData = [String: String]()
+                                userData["provider"] = u.providerID
+                                self.completeSignIn(id: u.uid, userData: userData)
                             }
                         }
                     })
@@ -91,21 +96,22 @@ class SignInViewController: UIViewController {
             else {
                 print ("HECTOR: Authed with Firebase")
                 if let u = user {
-                    self.completeSignIn(id: u.uid)
+                    var userData = [String: String]()
+                    userData["provider"] = credential.provider
+                    self.completeSignIn(id: u.uid, userData: userData)
                 }
             }
         }
     }
     
-    func completeSignIn(id: String) {
+    func completeSignIn(id: String, userData: [String: String]) {
+        DataService.ds.createFirDatabaseUer(uid: id, userData: userData)
         let result = KeychainWrapper.standard.set(id, forKey: KEY_UID)
         print ("Hector : keychain saved result \(result)")
         performSegue(withIdentifier: "showFeeds", sender: nil)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-    }
+  
 
 }
 
