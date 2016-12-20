@@ -24,6 +24,7 @@
 		12B060841E08716500CB7B76 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12B060821E08716500CB7B76 /* FBSDKLoginKit.framework */; };
 		12B060851E08716500CB7B76 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12B060831E08716500CB7B76 /* FBSDKShareKit.framework */; };
 		12B060871E08979800CB7B76 /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B060861E08979800CB7B76 /* FeedsViewController.swift */; };
+		12B060891E09A3F000CB7B76 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B060881E09A3F000CB7B76 /* CircleView.swift */; };
 		F97F925386410577E4749813 /* Pods_DevslopesSocial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A84B15AD277703FA26758E82 /* Pods_DevslopesSocial.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		12B060821E08716500CB7B76 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		12B060831E08716500CB7B76 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		12B060861E08979800CB7B76 /* FeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsViewController.swift; sourceTree = "<group>"; };
+		12B060881E09A3F000CB7B76 /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		16E655645F70B779354962A7 /* Pods-DevslopesSocial.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DevslopesSocial.release.xcconfig"; path = "Pods/Target Support Files/Pods-DevslopesSocial/Pods-DevslopesSocial.release.xcconfig"; sourceTree = "<group>"; };
 		30AFF8A19476977E38A5574C /* Pods-DevslopesSocial.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DevslopesSocial.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DevslopesSocial/Pods-DevslopesSocial.debug.xcconfig"; sourceTree = "<group>"; };
 		A84B15AD277703FA26758E82 /* Pods_DevslopesSocial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DevslopesSocial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +172,7 @@
 				12B060701E08407D00CB7B76 /* RoundButton.swift */,
 				12B060721E0841BF00CB7B76 /* FancyTextField.swift */,
 				12B060741E08448900CB7B76 /* FancyBtn.swift */,
+				12B060881E09A3F000CB7B76 /* CircleView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12B060891E09A3F000CB7B76 /* CircleView.swift in Sources */,
 				12B060391E0794BC00CB7B76 /* SignInViewController.swift in Sources */,
 				12B060711E08407D00CB7B76 /* RoundButton.swift in Sources */,
 				12B060871E08979800CB7B76 /* FeedsViewController.swift in Sources */,
