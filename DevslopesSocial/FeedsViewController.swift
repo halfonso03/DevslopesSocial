@@ -9,14 +9,33 @@
 import UIKit
 import Firebase
 import SwiftKeychainWrapper
-class FeedsViewController: UIViewController {
 
+class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+    
+    @IBOutlet weak var feedsTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
      
-        
-        
+        feedsTableView.delegate = self
+        feedsTableView.dataSource = self
     }
+    
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath)  as! PostCell
+    }
+    
+
     
     @IBAction func signOutClicked(_ sender: Any) {
         
@@ -28,6 +47,5 @@ class FeedsViewController: UIViewController {
         catch let error as Error {
             print ("Sign out error: \(error)")
         }
-        
     }
 }
