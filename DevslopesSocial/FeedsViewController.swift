@@ -22,7 +22,10 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
      
         feedsTableView.delegate = self
         feedsTableView.dataSource = self
-        
+     
+        DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
+            print ("HECTOR: \(snapshot.value!)")
+        })
     }
     
     
