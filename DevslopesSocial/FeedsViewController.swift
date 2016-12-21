@@ -16,6 +16,7 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var addImageImageView: UIImageView!
     @IBOutlet weak var feedsTableView: UITableView!
     var imagePicker: UIImagePickerController!
+    
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     var imageSelected = false
@@ -33,6 +34,10 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
         imagePicker.delegate = self
         
         DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
+            
+            
+            self.posts = []
+            
             if let snapshots = snapshot.children.allObjects as? [FIRDataSnapshot] {
                 for snap in snapshots {
                     if let postDict = snap.value as? [String: Any] {
@@ -118,8 +123,6 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return
         }
         
-        
-        
         if let imageData = UIImageJPEGRepresentation(img, 0.2) {
             
             let imageUID = NSUUID().uuidString
@@ -133,12 +136,29 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 else {
                     print ("HECTOR: Successfully uploaded image to fb storage")
                     let downloadUrl = metaData?.downloadURL()?.absoluteString
-                    
-                    //self.addImageImageView.image = nil
-                   // var post = Post( )
+                    self.postToFirebase(imageUrl: downloadUrl!)
                 }
             })
         }
+    }
+    
+    func postToFirebase(imageUrl: String) {
+        let post: [String: Any] = [
+            "caption": captionLabel.text!,
+            "imageUrl": imageUrl,
+            "likes": 0
+        ]
+        
+        let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
+        firebasePost.setValue(post)
+        
+        
+        captionLabel.text = ""
+        imageSelected = false
+        addImageImageView.image = UIImage(named: "add-image")
+        
+        
+        feedsTableView.reloadData()
     }
     
 }

@@ -6,7 +6,6 @@
 //  Copyright © 2016 Alfonso, Hector I. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 
