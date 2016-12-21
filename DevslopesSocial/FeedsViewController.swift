@@ -12,10 +12,13 @@ import SwiftKeychainWrapper
 
 class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    @IBOutlet weak var captionLabel: FancyTextField!
     @IBOutlet weak var addImageImageView: UIImageView!
     @IBOutlet weak var feedsTableView: UITableView!
     var imagePicker: UIImagePickerController!
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
+    
+    var imageSelected = false
     
     var posts = [Post]()
     
@@ -77,6 +80,7 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             addImageImageView.image = image
+            imageSelected = true
         }
         else {
             print("HEcTOR: Valid image was not selected")
@@ -100,6 +104,41 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBAction func addImageClicked(_ sender: UITapGestureRecognizer) {
         present(imagePicker, animated: true, completion: nil)
         
+    }
+    
+    
+    @IBAction func postButtonClicked(_ sender: Any) {
+        guard let caption = captionLabel.text, caption != "" else {
+            print("HECTOR: caption mus be entered")
+            return
+        }
+        
+        guard let img = addImageImageView.image, imageSelected == true else {
+            print("HECTOR: image mst be selected")
+            return
+        }
+        
+        
+        
+        if let imageData = UIImageJPEGRepresentation(img, 0.2) {
+            
+            let imageUID = NSUUID().uuidString
+            let metaData = FIRStorageMetadata()
+            metaData.contentType = "image/jpeg"
+            
+            DataService.ds.REF_POSTS_IMAGES.child(imageUID).put(imageData, metadata: metaData, completion: { (metaData, error) in
+                if error != nil {
+                    print ("HECTOR: Unable to upload to fb storage")
+                }
+                else {
+                    print ("HECTOR: Successfully uploaded image to fb storage")
+                    let downloadUrl = metaData?.downloadURL()?.absoluteString
+                    
+                    //self.addImageImageView.image = nil
+                   // var post = Post( )
+                }
+            })
+        }
     }
     
 }
