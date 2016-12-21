@@ -12,10 +12,10 @@ import SwiftKeychainWrapper
 
 class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    
+    @IBOutlet weak var feedsTableView: UITableView!
 
     
-    @IBOutlet weak var feedsTableView: UITableView!
+    var posts = [Post]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,8 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
         feedsTableView.dataSource = self
      
         DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
-            print ("HECTOR: \(snapshot.value!)")
+            
+            
         })
     }
     
@@ -38,7 +39,16 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath)  as! PostCell
+        
+        let post = posts[indexPath.row]
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCell {
+            cell.confirgureCell(post: post)
+            return cell
+        }
+        else {
+            return PostCell()
+        }
     }
     
 
