@@ -10,10 +10,11 @@ import UIKit
 import Firebase
 import SwiftKeychainWrapper
 
-class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    @IBOutlet weak var addImageImageView: UIImageView!
     @IBOutlet weak var feedsTableView: UITableView!
-
+    var imagePicker: UIImagePickerController!
     
     var posts = [Post]()
     
@@ -22,7 +23,11 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
      
         feedsTableView.delegate = self
         feedsTableView.dataSource = self
-     
+        
+        imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
+        
         DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
             if let snapshots = snapshot.children.allObjects as? [FIRDataSnapshot] {
                 for snap in snapshots {
@@ -61,6 +66,15 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
 
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+            addImageImageView.image = image
+        }
+        else {
+            print("HEcTOR: Valid image was not selected")
+        }
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
     
     @IBAction func signOutClicked(_ sender: Any) {
         
@@ -73,4 +87,11 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
             print ("Sign out error: \(error)")
         }
     }
+    
+    
+    @IBAction func addImageClicked(_ sender: UITapGestureRecognizer) {
+        present(imagePicker, animated: true, completion: nil)
+        
+    }
+    
 }

@@ -190,12 +190,16 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="7nh-ap-eq6">
                                         <rect key="frame" x="8" y="8" width="311" height="49"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-image" translatesAutoresizingMaskIntoConstraints="NO" id="scy-jZ-pkG">
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-image" translatesAutoresizingMaskIntoConstraints="NO" id="scy-jZ-pkG" customClass="CircleView" customModule="DevslopesSocial" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="49"/>
                                                 <color key="backgroundColor" red="0.0" green="0.58823529409999997" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="50" id="ZAD-ih-ax6"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="MBb-sX-KDH" appends="YES" id="HcW-kR-i1F"/>
+                                                </connections>
                                             </imageView>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add a caption" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z3w-tt-w7g" customClass="FancyTextField" customModule="DevslopesSocial" customModuleProvider="target">
                                                 <rect key="frame" x="55" y="9.5" width="201" height="30"/>
@@ -346,6 +350,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addImageImageView" destination="scy-jZ-pkG" id="Mi8-sD-Sge"/>
                         <outlet property="feedsTableView" destination="i9g-Vt-QcI" id="QaR-9s-8Uh"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="showMain" id="WqJ-g1-LrT"/>
                     </connections>
@@ -354,6 +359,11 @@
                 <tapGestureRecognizer id="Gta-fQ-6wf">
                     <connections>
                         <action selector="signOutClicked:" destination="g71-9x-tIG" id="ZbT-50-iJN"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="MBb-sX-KDH">
+                    <connections>
+                        <action selector="addImageClicked:" destination="g71-9x-tIG" id="ReA-hl-kqM"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
