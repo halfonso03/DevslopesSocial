@@ -27,6 +27,7 @@ class PostCell: UITableViewCell {
     func confirgureCell(post: Post) {
         self.post = post
         self.likesLabel.text = "\(post.likes)"
+        self.caption.text = post.caption
     }
   
 

@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DevslopesSocial/FeedsViewController.swift"
-            timestampString = "503968710.22611"
+            timestampString = "503979165.508212"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "FeedsViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -121,14 +121,46 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DevslopesSocial/FeedsViewController.swift"
-            timestampString = "503968710.22611"
+            filePath = "DevslopesSocial/Post.swift"
+            timestampString = "503979218.965069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
-            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "init(postId:postData:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DevslopesSocial.Post.init (postId : Swift.String, postData : Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; DevslopesSocial.Post"
+                  moduleName = "DevslopesSocial"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hialfonso/Desktop/udemy/DevslopesSocial/DevslopesSocial/Post.swift"
+                  timestampString = "503979219.288896"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "402">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DevslopesSocial.Post.init (postId : Swift.String, postData : Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; DevslopesSocial.Post"
+                  moduleName = "DevslopesSocial"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hialfonso/Desktop/udemy/DevslopesSocial/DevslopesSocial/Post.swift"
+                  timestampString = "503979219.290036"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "826">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -138,12 +170,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DevslopesSocial/FeedsViewController.swift"
-            timestampString = "503968710.22611"
+            timestampString = "503979303.618272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "numberOfSections(in:)"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
