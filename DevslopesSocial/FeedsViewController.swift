@@ -15,6 +15,7 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var addImageImageView: UIImageView!
     @IBOutlet weak var feedsTableView: UITableView!
     var imagePicker: UIImagePickerController!
+    static var imageCache: NSCache<NSString, UIImage> = NSCache()
     
     var posts = [Post]()
     
@@ -57,8 +58,15 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
         let post = posts[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCell {
-            cell.confirgureCell(post: post)
-            return cell
+            
+            if let image = FeedsViewController.imageCache.object(forKey: post.imageUrl as NSString) {
+                cell.confirgureCell(post: post, image: image)
+                return cell
+            }
+            else {
+                cell.confirgureCell(post: post)
+                return cell
+            }
         }
         else {
             return PostCell()

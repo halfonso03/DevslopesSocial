@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class PostCell: UITableViewCell {
 
@@ -24,10 +25,32 @@ class PostCell: UITableViewCell {
     }
 
     
-    func confirgureCell(post: Post) {
+    func confirgureCell(post: Post, image: UIImage? = nil) {
         self.post = post
         self.likesLabel.text = "\(post.likes)"
         self.caption.text = post.caption
+        
+        if image != nil {
+            self.postImg.image = image!
+        }
+        else {
+            let ref = FIRStorage.storage().reference(forURL: post.imageUrl)
+            ref.data(withMaxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                if error != nil {
+                    print ("HECTOR: error downlaing image from fB storage \(error)")
+                }
+                else {
+                    print ("HECTOR: Image dl from FB Storage")
+                    if data != nil {
+                        if let image = UIImage(data: data!) {
+                            self.postImg.image = image
+                            FeedsViewController.imageCache.setObject(image, forKey: post.imageUrl as NSString)
+                        }
+                    }
+                }
+            })
+        }
+        
     }
   
 

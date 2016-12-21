@@ -31,8 +31,8 @@ class Post {
         return _imageUrl ?? ""
     }
     
-    init(postId: String, caption: String, likes: Int, imageUrl: String) {
-        self._postId = postId
+    init(caption: String, likes: Int, imageUrl: String) {
+       // self._postId = postId
         self._caption = caption
         self._likes = likes
         self._imageUrl = imageUrl
@@ -47,10 +47,6 @@ class Post {
         
         if let likes = postData["likes"] as? Int {
             self._likes = likes
-        }
-        
-        if let caption = postData["caption"] as? String {
-            self._caption = caption
         }
         
         if let imageUrl = postData["imageUrl"] as? String {
