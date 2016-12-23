@@ -49,8 +49,8 @@ class SignInViewController: UIViewController {
                 print ("HECTOR: user canlled fb auth")
             } else {
                 print ("HECTOR: Authed with fb")
-                let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-                self.firebaseAuth(credential)
+                let token = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+                self.firebaseAuth(token)
                 
             }
         }
@@ -105,10 +105,33 @@ class SignInViewController: UIViewController {
     }
     
     func completeSignIn(id: String, userData: [String: String]) {
-        DataService.ds.createFirDatabaseUer(uid: id, userData: userData)
+        
+        
+        DataService.ds.createFirDatabaseUer(uid: id, userData: userData, completion: { (error, dbRef) -> () in
+            
+            DataService.ds.REF_CURRENT_USER.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if snapshot.hasChild("displayName") {
+                    self.performSegue(withIdentifier: "showFeeds", sender: nil)
+                }
+                else {
+                    self.performSegue(withIdentifier: "showSettings", sender: nil)
+                }
+            }, withCancel: nil)
+        })
+        
         let result = KeychainWrapper.standard.set(id, forKey: KEY_UID)
         print ("Hector : keychain saved result \(result)")
-        performSegue(withIdentifier: "showFeeds", sender: nil)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showSettings" {
+            if let viewController = segue.destination as? UserSettingsViewController {
+                viewController.requiresDisplayName = true
+            }
+        }
+        
     }
     
   

@@ -46,11 +46,12 @@ class DataService {
     
     var REF_CURRENT_USER: FIRDatabaseReference {
         let uid = KeychainWrapper.standard.string(forKey: KEY_UID)!
-        let user = REF_USERS.child(uid)
+        let user = _REF_USERS.child(uid)
         return user
     }
     
-    func createFirDatabaseUer(uid: String, userData: [String: String]) {
-        REF_USERS.child(uid).updateChildValues(userData)
+    func createFirDatabaseUer(uid: String, userData: [String: String], completion: @escaping (Error?, FIRDatabaseReference) -> ()) {
+        
+        REF_USERS.child(uid).updateChildValues(userData, withCompletionBlock: completion )
     }
 }

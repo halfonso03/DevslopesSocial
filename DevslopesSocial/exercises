@@ -1,0 +1,6 @@
+1. Allow user to create a user name when first signing in
+    detect if new user and present a new vc to enter a user name. must validate that name is not already used
+
+2. choose profile image
+
+add a profile vc to view user name and stats, # of likes, # of posts, date joined, profile picture upload

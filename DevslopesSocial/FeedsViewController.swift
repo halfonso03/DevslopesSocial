@@ -22,6 +22,7 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
     var imageSelected = false
     
     var posts = [Post]()
+    var userDisplayName = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -160,5 +161,7 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         feedsTableView.reloadData()
     }
+    
+    
     
 }
