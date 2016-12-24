@@ -29,21 +29,12 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         if !requiresDisplayName {
             showDisplayName()
         }
-        
     }
 
-    
     override func viewDidAppear(_ animated: Bool) {
         
         if requiresDisplayName {
-            let alert = UIAlertController(title: "Settings", message: "Your display name is required to post. Please enter a display name and choose a profile pciture", preferredStyle: .alert)
-            
-            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-            
-            alert.addAction(action)
-            
-            
-            present(alert, animated: true, completion: nil)
+            showAlert(title: "Settings", message: "Your display name is required to post. Please enter a display name and choose a profile picture.", actionTitle: "OK", actionStyle: .default)
             
             requiresDisplayName = false
         }
@@ -53,6 +44,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         present(imagePicker, animated: true, completion: nil)
         
     }
+    
     @IBAction func saveSettingClicked(_ sender: Any) {
         
         guard let displayNameEntered = displayNameTextField.text, displayNameEntered != "" else {
@@ -60,50 +52,54 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
             return
         }
         
-        guard let img = profileImageView.image, imageSelected == true else {
-            print("HECTOR: image mst be selected")
-            return
-        }
         
         
-        
-        DataService.ds.REF_USERS.queryOrdered(byChild: "displayName").observeSingleEvent(of: .value, with: {(snap) in
-            if let snapDict = snap.value as? [String: Any] {
-                for each in snapDict {
-                    print(each.0) // Will print out your node ID = 1
-                    print(each.1) //Will print out your Dictionary inside that node.
+        DataService.ds.REF_USERS.queryOrdered(byChild: "displayName").queryEqual(toValue: displayNameEntered).observeSingleEvent(of: .value, with: {(snapshot) in
+            
+            var canUseDisplayName = true
+            
+            if let snap = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                for child in snap {
+                    if child.key != DataService.ds.REF_CURRENT_USER.key {
+                        canUseDisplayName = false
+                        self.showAlert(title: "Settings", message: "The display name entered is already taken by another user. Please choose another.", actionTitle: "OK", actionStyle: .cancel)
+
+                    }
                 }
-                
             }
             
-        })
-        
-        return
-        
-        DataService.ds.REF_CURRENT_USER.child("displayName").setValue(displayNameEntered)
-        
-        
-        if let imageData = UIImageJPEGRepresentation(img, 0.2) {
-            
-            let imageUID = NSUUID().uuidString
-            let metaData = FIRStorageMetadata()
-            metaData.contentType = "image/jpeg"
-            
-            DataService.ds.REF_POSTS_IMAGES.child(imageUID).put(imageData, metadata: metaData, completion: { (metaData, error) in
-                if error != nil {
-                    print ("HECTOR: Unable to upload to fb storage")
+            if canUseDisplayName {
+                
+                DataService.ds.REF_CURRENT_USER.child("displayName").setValue(displayNameEntered)
+
+                guard let img = self.profileImageView.image, self.imageSelected == true else {
+                    self.showAlert(title: "Settings", message: "Your settings have been updated. A default image will display for your profile. You may choose a profile image at a later time.", actionTitle: "OK", actionStyle: .default)
+                    print("HECTOR: image mst be selected")
+                    return
                 }
-                else {
-                    print ("HECTOR: Successfully uploaded image to fb storage")
-                    let downloadUrl = metaData?.downloadURL()?.absoluteString
-                    DataService.ds.REF_CURRENT_USER.child("profileImageUrl").setValue(downloadUrl)
-                    //self.displayName.text = ""
-                    self.imageSelected = false
+                
+                if let imageData = UIImageJPEGRepresentation(img, 0.2) {
                     
-                    self.showSaveConfirmation()
+                    let imageUID = NSUUID().uuidString
+                    let metaData = FIRStorageMetadata()
+                    metaData.contentType = "image/jpeg"
+                    
+                    DataService.ds.REF_POSTS_IMAGES.child(imageUID).put(imageData, metadata: metaData, completion: { (metaData, error) in
+                        if error != nil {
+                            print ("HECTOR: Unable to upload to fb storage")
+                        }
+                        else {
+                            print ("HECTOR: Successfully uploaded image to fb storage")
+                            let downloadUrl = metaData?.downloadURL()?.absoluteString
+                            DataService.ds.REF_CURRENT_USER.child("profileImageUrl").setValue(downloadUrl)
+                            self.imageSelected = false
+                            self.showAlert(title: "Settings", message: "Your settings have been updated.", actionTitle: "OK", actionStyle: .default)
+                            FeedsViewController.settingsSaved = true
+                        }
+                    })
                 }
-            })
-        }
+            }
+        })
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -126,14 +122,6 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         if segue.identifier == "showFeeds" {
             dismiss(animated: true, completion: nil)
         }
-    }
-    
-    func showSaveConfirmation() {
-        
-        let alert = UIAlertController(title: "Settings", message: "Your settings have been updated.", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
     }
     
     func showDisplayName() {
@@ -163,5 +151,14 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
             
             
         }, withCancel: nil)
+    }
+    
+    func showAlert(title: String, message: String, actionTitle: String,  actionStyle: UIAlertActionStyle) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: actionTitle, style: actionStyle, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+        
     }
 }

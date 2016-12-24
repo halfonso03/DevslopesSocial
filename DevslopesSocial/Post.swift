@@ -15,7 +15,10 @@ class Post {
     private var _likes: Int!
     private var _imageUrl: String!
     private var _postId: String!
+    private var _displayName: String!
     private var _postRef:  FIRDatabaseReference!
+    private var _uid: String!
+    private var _postDate: Double!
     
     var postId: String {
         return _postId ?? ""
@@ -33,11 +36,23 @@ class Post {
         return _imageUrl ?? ""
     }
     
-    init(caption: String, likes: Int, imageUrl: String) {
+    var displayName: String {
+        return _displayName ?? ""
+    }
+    
+    var uid: String {
+        return _uid ?? ""
+    }
+    var postDate: Double {
+        return _postDate
+    }
+    
+    init(displayName: String, caption: String, likes: Int, imageUrl: String) {
        // self._postId = postId
         self._caption = caption
         self._likes = likes
         self._imageUrl = imageUrl
+        self._displayName = displayName
     }
     
     init(postId: String, postData: [String: Any]) {
@@ -54,6 +69,14 @@ class Post {
         if let imageUrl = postData["imageUrl"] as? String {
             self._imageUrl = imageUrl
         }
+        
+        if let displayName = postData["displayName"] as? String {
+            self._displayName = displayName
+        }
+        
+        self._uid = postData["uid"] as! String
+        
+        self._postDate = Double((postData["postDate"] as! String))!
         
         _postRef = DataService.ds.REF_POSTS.child(_postId)
     }

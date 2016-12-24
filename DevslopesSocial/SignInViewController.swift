@@ -111,6 +111,10 @@ class SignInViewController: UIViewController {
             
             DataService.ds.REF_CURRENT_USER.observeSingleEvent(of: .value, with: { (snapshot) in
                 
+                if snapshot.hasChild("profileImageUrl") {
+                    FeedsViewController.profileImageUrl = ((snapshot.value as? [String: Any])?["profileImageUrl"] as! String)
+                }
+                
                 if snapshot.hasChild("displayName") {
                     self.performSegue(withIdentifier: "showFeeds", sender: nil)
                 }

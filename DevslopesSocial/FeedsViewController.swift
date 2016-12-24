@@ -18,11 +18,15 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
     var imagePicker: UIImagePickerController!
     
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
+    static var profileImageUrl: String?
     
     var imageSelected = false
     
     var posts = [Post]()
-    var userDisplayName = String()
+    var displayName = String()
+    var userKey = String()
+    
+    static var settingsSaved = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +40,6 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
             
-            
             self.posts = []
             
             if let snapshots = snapshot.children.allObjects as? [FIRDataSnapshot] {
@@ -47,12 +50,40 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
                         self.posts.append(post)
                     }
                 }
+                
+                self.posts.sort(by: { (p1, p2) -> Bool in
+                    return p1.postDate > p2.postDate
+                })
+                
                 self.feedsTableView.reloadData()
             }
             
         })
+        
+        DataService.ds.REF_CURRENT_USER.observe(.value, with: { (snapshot) in
+            if snapshot.hasChild("displayName") {
+                if let dict = snapshot.value as? [String: Any] {
+                    self.displayName = dict["displayName"]! as! String
+                }
+            }
+        })
+        
+        userKey = DataService.ds.REF_CURRENT_USER.key
     }
     
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if FeedsViewController.settingsSaved {
+            for case let cell as PostCell in feedsTableView.visibleCells {
+                cell.loadProfileImageForCell()
+            }
+        }
+        
+        FeedsViewController.settingsSaved = false
+        
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -68,14 +99,16 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCell {
             
+             
             if let image = FeedsViewController.imageCache.object(forKey: post.imageUrl as NSString) {
-                cell.confirgureCell(post: post, image: image)
+                cell.configureCell(post: post, userKey: userKey, image: image)
                 return cell
             }
             else {
-                cell.confirgureCell(post: post)
+                cell.configureCell(post: post, userKey: userKey )
                 return cell
             }
+
         }
         else {
             return PostCell()
@@ -101,7 +134,7 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
             try FIRAuth.auth()?.signOut()
             performSegue(withIdentifier: "showMain", sender: nil)
         }
-        catch let error as Error {
+        catch let error {
             print ("Sign out error: \(error)")
         }
     }
@@ -144,20 +177,27 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func postToFirebase(imageUrl: String) {
+        
+        let timeInterval: Double = NSDate().timeIntervalSince1970
+        
         let post: [String: Any] = [
             "caption": captionLabel.text!,
             "imageUrl": imageUrl,
-            "likes": 0
-        ]
+            "likes": 0,
+            "displayName": displayName,
+            "postDate" : timeInterval.description,
+            "uid": userKey]
         
         let firebasePost = DataService.ds.REF_POSTS.childByAutoId()
         firebasePost.setValue(post)
         
         
+        DataService.ds.REF_CURRENT_USER.child("posts").child(firebasePost.key).setValue(true)
+        
+        
         captionLabel.text = ""
         imageSelected = false
         addImageImageView.image = UIImage(named: "add-image")
-        
         
         feedsTableView.reloadData()
     }

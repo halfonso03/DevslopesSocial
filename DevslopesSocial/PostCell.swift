@@ -30,12 +30,17 @@ class PostCell: UITableViewCell {
         likeImageView.isUserInteractionEnabled = true
     }
 
-    func confirgureCell(post: Post, image: UIImage? = nil) {
+    func configureCell(post: Post, userKey: String, image: UIImage? = nil) {
+        
         self.post = post
+        
         likesRef = DataService.ds.REF_CURRENT_USER.child("likes").child(post.postId)
 
         self.likesLabel.text = "\(post.likes)"
         self.caption.text = post.caption
+        self.userNameLabel.text = post.displayName
+        
+        loadProfileImageForCell()
         
         if image != nil {
             self.postImg.image = image!
@@ -84,6 +89,39 @@ class PostCell: UITableViewCell {
             }
         })
 
+    }
+    
+    func loadProfileImageForCell() {
+        DataService.ds.REF_USERS.queryOrderedByKey().queryEqual(toValue: self.post.uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            if let snapshots = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                if let dict = snapshots.first?.value as? [String: Any] {
+                    if let profileImageUrl = dict["profileImageUrl"] as? String {
+                        
+                        if let image = FeedsViewController.imageCache.object(forKey: profileImageUrl as NSString) {
+                            self.profileImg.image = image
+                        }
+                        else {
+                            let ref = FIRStorage.storage().reference(forURL: profileImageUrl)
+                            ref.data(withMaxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                                if error != nil {
+                                    print ("HECTOR: error downloading profile image for post \(error)")
+                                }
+                                else {
+                                    if data != nil {
+                                        if let image = UIImage(data: data!) {
+                                            self.profileImg.image = image
+                                            FeedsViewController.imageCache.setObject(image, forKey: profileImageUrl as NSString)
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+            
+        })
     }
     
 }
