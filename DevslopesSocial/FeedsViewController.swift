@@ -69,6 +69,40 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
         })
         
         userKey = DataService.ds.REF_CURRENT_USER.key
+        
+        DataService.ds.REF_USERS.observe(.value, with: { (snapshot) in
+            if let snapshots = snapshot.children.allObjects as? [FIRDataSnapshot] {
+                for snap in snapshots {
+                    if let postDict = snap.value as? [String: Any] {
+
+                        guard let image = FeedsViewController.imageCache.object(forKey: postDict["profileImageUrl"] as! NSString) as UIImage! else {
+                            continue
+                        }
+                        
+                        if let profileImageUrl = postDict["profileImageUrl"] as? String {
+                            let ref = FIRStorage.storage().reference(forURL: profileImageUrl)
+                            ref.data(withMaxSize: 2 * 1024 * 1024, completion: { (data, error) in
+                                if error != nil {
+                                    print ("HECTOR: error downloading profile image for post \(error)")
+                                }
+                                else {
+                                    if data != nil {
+                                        if let image = UIImage(data: data!) {
+                                            FeedsViewController.imageCache.setObject(image, forKey: profileImageUrl as NSString)
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                        
+                    }
+                }
+            }
+            
+            for case let cell as PostCell in self.feedsTableView.visibleCells {
+                cell.loadProfileImageForCell()
+            }
+        })
     }
     
     
@@ -202,6 +236,10 @@ class FeedsViewController: UIViewController, UITableViewDataSource, UITableViewD
         feedsTableView.reloadData()
     }
     
+    
+    @IBAction func deleteImagClicked(_ sender: UITapGestureRecognizer) {
+        print ("deelted clicked")
+    }
     
     
 }

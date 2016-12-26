@@ -17,7 +17,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var caption: UITextView!
     @IBOutlet weak var likesLabel: UILabel!
     @IBOutlet weak var likeImageView: UIImageView!
-    
+    @IBOutlet weak var deleteImage: UIImageView!
     var post: Post!
     var likesRef: FIRDatabaseReference!
     
@@ -28,6 +28,12 @@ class PostCell: UITableViewCell {
         tap.numberOfTapsRequired = 1
         likeImageView.addGestureRecognizer(tap)
         likeImageView.isUserInteractionEnabled = true
+        
+        let deleteTap = UITapGestureRecognizer(target: self, action: #selector(deleteTapRecognized))
+        deleteTap.numberOfTapsRequired = 1
+        deleteImage.addGestureRecognizer(deleteTap)
+        deleteImage.isUserInteractionEnabled = true
+        
     }
 
     func configureCell(post: Post, userKey: String, image: UIImage? = nil) {
@@ -72,6 +78,14 @@ class PostCell: UITableViewCell {
                 self.likeImageView.image = UIImage(named: "filled-heart")
             }
         })
+        
+        
+        if DataService.ds.REF_CURRENT_USER.key != post.uid {
+            deleteImage.isHidden = true
+        }
+        else {
+            deleteImage.isHidden = false
+        }
     }
   
     func tapRecognized(recognizer: UITapGestureRecognizer) {
@@ -122,6 +136,13 @@ class PostCell: UITableViewCell {
             }
             
         })
+    }
+    
+    func deleteTapRecognized(sender: UITapGestureRecognizer) {
+        
+        DataService.ds.REF_POSTS.child(self.post.postId).removeValue()
+        DataService.ds.REF_CURRENT_USER.child("posts").child(self.post.postId).removeValue()
+        DataService.ds.REF_CURRENT_USER.child("likes").child(self.post.postId).removeValue()
     }
     
 }

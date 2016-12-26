@@ -114,6 +114,7 @@
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="5CB-vc-Bh2" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="0UM-iH-MKA"/>
                             <constraint firstItem="2ha-qT-jcw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3oa-kk-qGq"/>
@@ -131,6 +132,9 @@
                             <constraint firstItem="nHu-7T-gd7" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="smJ-Ux-Eno"/>
                             <constraint firstItem="5CB-vc-Bh2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="vty-pB-pEy"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="K8W-xj-t6T" appends="YES" id="YXb-U4-C8D"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="emailAddressTextField" destination="Eq6-Lq-Lm8" id="hRr-Qu-4vd"/>
@@ -140,6 +144,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="K8W-xj-t6T">
+                    <connections>
+                        <action selector="tapped:" destination="BYZ-38-t0r" id="16x-QE-ESH"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-455" y="120"/>
         </scene>
@@ -470,6 +479,13 @@
                                                                 <constraint firstItem="qZG-La-GQF" firstAttribute="leading" secondItem="uCs-LC-KzF" secondAttribute="leading" id="L7T-db-6Kx"/>
                                                             </constraints>
                                                         </stackView>
+                                                        <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="delete-image" translatesAutoresizingMaskIntoConstraints="NO" id="DEk-XT-xFZ">
+                                                            <rect key="frame" x="231" y="298" width="20" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="20" id="PgS-3G-xRY"/>
+                                                                <constraint firstAttribute="width" constant="20" id="awo-Ed-z8b"/>
+                                                            </constraints>
+                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -477,6 +493,8 @@
                                                         <constraint firstItem="hff-Bt-j9g" firstAttribute="leading" secondItem="4Ca-Qz-Jg9" secondAttribute="trailing" constant="8" id="5IB-dt-k9N"/>
                                                         <constraint firstItem="uCs-LC-KzF" firstAttribute="leading" secondItem="e3n-KY-2w9" secondAttribute="leading" constant="8" id="5J2-mm-AAf"/>
                                                         <constraint firstAttribute="trailing" secondItem="hff-Bt-j9g" secondAttribute="trailing" constant="8" id="7dZ-Yg-St0"/>
+                                                        <constraint firstItem="4Ca-Qz-Jg9" firstAttribute="leading" secondItem="DEk-XT-xFZ" secondAttribute="trailing" constant="8" id="INE-X1-cNE"/>
+                                                        <constraint firstItem="DEk-XT-xFZ" firstAttribute="centerY" secondItem="4Ca-Qz-Jg9" secondAttribute="centerY" id="aF4-gL-rbW"/>
                                                         <constraint firstAttribute="trailing" secondItem="uCs-LC-KzF" secondAttribute="trailing" constant="8" id="hvj-MS-7fG"/>
                                                         <constraint firstAttribute="bottom" secondItem="4Ca-Qz-Jg9" secondAttribute="bottom" constant="12" id="ly9-LO-Tqk"/>
                                                         <constraint firstItem="uCs-LC-KzF" firstAttribute="top" secondItem="e3n-KY-2w9" secondAttribute="top" constant="8" id="m3m-HG-0aS"/>
@@ -494,6 +512,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="caption" destination="Qpe-yS-tRY" id="RUG-29-PKp"/>
+                                            <outlet property="deleteImage" destination="DEk-XT-xFZ" id="RHf-d7-qGs"/>
                                             <outlet property="likeImageView" destination="Q74-L4-WTy" id="4Pj-C0-mb4"/>
                                             <outlet property="likesLabel" destination="hff-Bt-j9g" id="nKR-lT-MzI"/>
                                             <outlet property="postImg" destination="et9-gy-got" id="Ot2-dy-XtQ"/>
@@ -537,12 +556,13 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="386" y="688"/>
+            <point key="canvasLocation" x="384.80000000000001" y="687.7061469265368"/>
         </scene>
     </scenes>
     <resources>
         <image name="add-image" width="88" height="88"/>
         <image name="add-post" width="88" height="88"/>
+        <image name="delete-image" width="225" height="225"/>
         <image name="devslopes-logo" width="150" height="94"/>
         <image name="empty-heart" width="70" height="70"/>
         <image name="f" width="352" height="328"/>

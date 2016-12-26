@@ -139,6 +139,9 @@ class SignInViewController: UIViewController {
     }
     
   
+    @IBAction func tapped(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
 
 }
 
